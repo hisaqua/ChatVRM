@@ -31,8 +31,6 @@ export default function Home() {
       const params = JSON.parse(
         window.localStorage.getItem("chatVRMParams") as string
       );
-      setSystemPrompt(params.systemPrompt ?? SYSTEM_PROMPT);
-      setKoeiroParam(params.koeiroParam ?? DEFAULT_PARAM);
       setChatLog(params.chatLog ?? []);
     }
   }, []);
@@ -41,10 +39,10 @@ export default function Home() {
     process.nextTick(() =>
       window.localStorage.setItem(
         "chatVRMParams",
-        JSON.stringify({ systemPrompt, koeiroParam, chatLog })
+        JSON.stringify({ chatLog })
       )
     );
-  }, [systemPrompt, koeiroParam, chatLog]);
+  }, [chatLog]);
 
   const handleChangeChatLog = useCallback(
     (targetIndex: number, text: string) => {
