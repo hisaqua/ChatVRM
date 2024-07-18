@@ -48,7 +48,7 @@ const Chat = ({ role, message }: { role: string; message: string }) => {
         {role === "assistant" ? "CHARACTER" : "YOU"}
       </div>
       <div className="px-24 py-16 bg-white rounded-b-8">
-        <div className={`typography-16 font-bold ${roleText}`}>{message}</div>
+        <div className={`typography-16 font-bold ${roleText}`}>{message.replace(/\s*\[[^\]]+\]\s*/g, '').trim()}</div>
       </div>
     </div>
   );
