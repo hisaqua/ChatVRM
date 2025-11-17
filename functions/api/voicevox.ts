@@ -23,7 +23,7 @@ export const onRequestPost = async (context: { env: Record<string,string>; reque
   if (!message) {
     return json({ message: "message is required" }, 400);
   }
-  const speaker: string = body.speaker || "3"; // default speaker
+  const speaker: string = body.speaker || "2"; // default speaker
 
   try {
     const endpointUrl = "https://deprecatedapis.tts.quest/v2/voicevox/audio/";
