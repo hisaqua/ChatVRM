@@ -27,11 +27,11 @@ export const MessageInput = ({
   if (overlay) {
     return (
       <div className="relative z-20 w-full px-8 pb-8">
-        <div className="mx-auto max-w-md rounded-full bg-[rgba(20,18,24,0.6)] backdrop-blur-md border border-[rgba(255,255,255,0.16)] shadow-lg px-8 py-8">
+        <div className="mx-auto max-w-md rounded-full bg-[rgba(7,14,24,0.85)] backdrop-blur-md border border-[rgba(173,242,255,0.25)] shadow-lg px-8 py-8">
           <div className="grid grid-flow-col gap-[8px] grid-cols-[min-content_1fr_min-content] items-center">
             <IconButton
               iconName="24/Microphone"
-              className="!bg-[rgba(255,255,255,0.12)] hover:!bg-[rgba(255,255,255,0.22)] disabled:!bg-[rgba(255,255,255,0.06)] !text-white !mr-0"
+              className="!bg-[rgba(126,232,255,0.14)] hover:!bg-[rgba(126,232,255,0.26)] disabled:!bg-[rgba(126,232,255,0.06)] !text-[#ebf9ff] !mr-0"
               isProcessing={isMicRecording}
               disabled={isChatProcessing}
               onClick={onClickMicButton}
@@ -41,13 +41,13 @@ export const MessageInput = ({
               placeholder="聞きたいことをいれてね"
               onChange={onChangeUserMessage}
               disabled={isChatProcessing}
-              className="bg-transparent w-full px-8 text-white placeholder-[rgba(255,255,255,0.5)] typography-16 font-bold outline-none disabled:text-[rgba(255,255,255,0.4)]"
+              className="bg-transparent w-full px-8 text-[#ebf9ff] placeholder-[rgba(235,249,255,0.5)] typography-16 font-bold outline-none disabled:text-[rgba(235,249,255,0.4)]"
               value={userMessage}
             ></input>
 
             <IconButton
               iconName="24/Send"
-              className="!bg-[rgba(255,255,255,0.12)] hover:!bg-[rgba(255,255,255,0.22)] disabled:!bg-[rgba(255,255,255,0.06)] !text-white !mr-0"
+              className="!bg-[rgba(126,232,255,0.14)] hover:!bg-[rgba(126,232,255,0.26)] disabled:!bg-[rgba(126,232,255,0.06)] !text-[#ebf9ff] !mr-0"
               isProcessing={isChatProcessing}
               disabled={isChatProcessing || !userMessage}
               onClick={onClickSendButton}

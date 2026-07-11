@@ -26,7 +26,7 @@ export const OverlayChatLog = ({ messages }: Props) => {
     <div className="relative z-20 w-full px-8 pt-4">
       <div
         ref={scrollRef}
-        className="mx-auto max-w-md max-h-[30svh] overflow-y-auto rounded-16 bg-[rgba(20,18,24,0.55)] backdrop-blur-md border border-[rgba(255,255,255,0.14)] px-12 py-8 scroll-hidden"
+        className="mx-auto max-w-md max-h-[30svh] overflow-y-auto rounded-16 bg-[rgba(7,14,24,0.85)] backdrop-blur-md border border-[rgba(173,242,255,0.25)] shadow-lg px-12 py-8 scroll-hidden"
       >
         {messages.map((msg, i) => (
           <ChatLine key={i} role={msg.role} message={msg.content} />
@@ -44,10 +44,10 @@ const ChatLine = ({ role, message }: { role: string; message: string }) => {
   return (
     <div className={`my-4 flex ${isAssistant ? "justify-start" : "justify-end"}`}>
       <div
-        className={`max-w-[85%] px-12 py-6 rounded-12 typography-14 leading-relaxed ${
+        className={`max-w-[85%] px-12 py-6 rounded-[14px] border typography-14 text-[#ebf9ff] ${
           isAssistant
-            ? "bg-[rgba(255,255,255,0.12)] text-white"
-            : "bg-[rgba(129,163,133,0.55)] text-white"
+            ? "bg-[rgba(235,249,255,0.08)] border-[rgba(173,242,255,0.15)]"
+            : "bg-[rgba(126,232,255,0.16)] border-[rgba(126,232,255,0.4)]"
         }`}
       >
         {text}
