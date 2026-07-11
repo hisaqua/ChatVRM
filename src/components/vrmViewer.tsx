@@ -11,6 +11,8 @@ type Props = {
   enablePan?: boolean;
   // カメラの回転操作を許可するか(既定はtrue)
   enableRotate?: boolean;
+  // カメラの拡大縮小(ズーム)操作を許可するか(既定はtrue)
+  enableZoom?: boolean;
 };
 
 export default function VrmViewer({
@@ -18,13 +20,14 @@ export default function VrmViewer({
   onLoadingChange,
   enablePan,
   enableRotate,
+  enableZoom,
 }: Props) {
   const { viewer } = useContext(ViewerContext);
 
   const canvasRef = useCallback(
     (canvas: HTMLCanvasElement) => {
       if (canvas) {
-        viewer.setup(canvas, { enablePan, enableRotate });
+        viewer.setup(canvas, { enablePan, enableRotate, enableZoom });
         onLoadingChange?.(true);
         viewer.loadVrm(buildUrl("/hisako.vrm")).then(() => {
           onLoadingChange?.(false);
@@ -57,7 +60,7 @@ export default function VrmViewer({
         });
       }
     },
-    [viewer, onLoadingChange, enablePan, enableRotate]
+    [viewer, onLoadingChange, enablePan, enableRotate, enableZoom]
   );
 
   return (

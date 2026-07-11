@@ -43,6 +43,7 @@ export default function Overlay() {
           onLoadingChange={setIsAvatarLoading}
           enablePan={false}
           enableRotate={false}
+          enableZoom={false}
         />
         {isAvatarLoading && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">

@@ -77,10 +77,15 @@ export class Viewer {
    * Reactで管理しているCanvasを後から設定する
    * @param options.enablePan カメラの平行移動(パン)操作を許可するか(既定はtrue)
    * @param options.enableRotate カメラの回転操作を許可するか(既定はtrue)
+   * @param options.enableZoom カメラの拡大縮小(ズーム)操作を許可するか(既定はtrue)
    */
   public setup(
     canvas: HTMLCanvasElement,
-    options?: { enablePan?: boolean; enableRotate?: boolean }
+    options?: {
+      enablePan?: boolean;
+      enableRotate?: boolean;
+      enableZoom?: boolean;
+    }
   ) {
     const parentElement = canvas.parentElement;
     const width = parentElement?.clientWidth || canvas.width;
@@ -108,6 +113,7 @@ export class Viewer {
     this._cameraControls.screenSpacePanning = true;
     this._cameraControls.enablePan = options?.enablePan ?? true;
     this._cameraControls.enableRotate = options?.enableRotate ?? true;
+    this._cameraControls.enableZoom = options?.enableZoom ?? true;
     this._cameraControls.update();
 
     window.addEventListener("resize", () => {
