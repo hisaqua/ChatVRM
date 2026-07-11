@@ -7,15 +7,24 @@ type Props = {
   className?: string;
   // アバターの読み込み開始/完了を通知するコールバック
   onLoadingChange?: (isLoading: boolean) => void;
+  // カメラの平行移動(パン)操作を許可するか(既定はtrue)
+  enablePan?: boolean;
+  // カメラの回転操作を許可するか(既定はtrue)
+  enableRotate?: boolean;
 };
 
-export default function VrmViewer({ className, onLoadingChange }: Props) {
+export default function VrmViewer({
+  className,
+  onLoadingChange,
+  enablePan,
+  enableRotate,
+}: Props) {
   const { viewer } = useContext(ViewerContext);
 
   const canvasRef = useCallback(
     (canvas: HTMLCanvasElement) => {
       if (canvas) {
-        viewer.setup(canvas);
+        viewer.setup(canvas, { enablePan, enableRotate });
         onLoadingChange?.(true);
         viewer.loadVrm(buildUrl("/hisako.vrm")).then(() => {
           onLoadingChange?.(false);
@@ -48,7 +57,7 @@ export default function VrmViewer({ className, onLoadingChange }: Props) {
         });
       }
     },
-    [viewer, onLoadingChange]
+    [viewer, onLoadingChange, enablePan, enableRotate]
   );
 
   return (

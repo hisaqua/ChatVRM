@@ -41,6 +41,8 @@ export default function Overlay() {
         <VrmViewer
           className="absolute inset-0"
           onLoadingChange={setIsAvatarLoading}
+          enablePan={false}
+          enableRotate={false}
         />
         {isAvatarLoading && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
