@@ -43,19 +43,10 @@ const ChatLine = ({ role, message }: { role: string; message: string }) => {
 
   return (
     <div
-      className={`overlay-message-in my-[10px] flex items-end gap-[6px] ${
-        isAssistant ? "justify-start" : "justify-end flex-row-reverse"
+      className={`overlay-message-in my-[10px] flex ${
+        isAssistant ? "justify-start" : "justify-end"
       }`}
     >
-      <div
-        className={`shrink-0 w-[22px] h-[22px] rounded-oval flex items-center justify-center typography-12 font-bold ${
-          isAssistant
-            ? "bg-gradient-to-br from-[rgba(126,232,255,0.9)] to-[rgba(98,255,200,0.75)] text-[#02050a]"
-            : "bg-[rgba(235,249,255,0.16)] text-[rgba(235,249,255,0.85)]"
-        }`}
-      >
-        {isAssistant ? "\u{1F4A7}" : "\u{1F464}"}
-      </div>
       <div
         className={`max-w-[78%] px-[12px] py-8 border typography-14 text-[#ebf9ff] shadow-[0_2px_10px_rgba(2,8,16,0.35)] ${
           isAssistant
