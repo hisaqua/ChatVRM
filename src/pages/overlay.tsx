@@ -31,13 +31,20 @@ export default function Overlay() {
       `}</style>
 
       <div className="relative flex-1 min-h-0">
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%]"
+          style={{
+            background:
+              "radial-gradient(closest-side, rgba(126,232,255,0.16), rgba(126,232,255,0) 70%)",
+          }}
+        />
         <VrmViewer
           className="absolute inset-0"
           onLoadingChange={setIsAvatarLoading}
         />
         {isAvatarLoading && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-[40px] h-[40px] border-4 border-[rgba(173,242,255,0.25)] border-t-[rgba(126,232,255,0.95)] rounded-full animate-spin" />
+            <div className="w-[40px] h-[40px] border-4 border-[rgba(173,242,255,0.25)] border-t-[rgba(126,232,255,0.95)] rounded-oval animate-spin" />
           </div>
         )}
       </div>

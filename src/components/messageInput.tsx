@@ -27,11 +27,11 @@ export const MessageInput = ({
   if (overlay) {
     return (
       <div className="relative z-20 w-full px-8 pb-8">
-        <div className="mx-auto max-w-md rounded-full bg-[rgba(7,14,24,0.85)] backdrop-blur-md border border-[rgba(173,242,255,0.25)] shadow-lg px-8 py-8">
+        <div className="overlay-input-glow mx-auto max-w-md rounded-oval bg-gradient-to-b from-[rgba(11,20,32,0.9)] to-[rgba(7,14,24,0.88)] backdrop-blur-md border border-[rgba(173,242,255,0.18)] px-8 py-[10px]">
           <div className="grid grid-flow-col gap-[8px] grid-cols-[min-content_1fr_min-content] items-center">
             <IconButton
               iconName="24/Microphone"
-              className="!bg-[rgba(126,232,255,0.14)] hover:!bg-[rgba(126,232,255,0.26)] disabled:!bg-[rgba(126,232,255,0.06)] !text-[#ebf9ff] !mr-0"
+              className="!rounded-oval !bg-[rgba(126,232,255,0.14)] hover:!bg-[rgba(126,232,255,0.26)] disabled:!bg-[rgba(126,232,255,0.06)] !text-[#ebf9ff] !mr-0 transition-transform duration-150 hover:scale-105 active:scale-95"
               isProcessing={isMicRecording}
               disabled={isChatProcessing}
               onClick={onClickMicButton}
@@ -47,7 +47,7 @@ export const MessageInput = ({
 
             <IconButton
               iconName="24/Send"
-              className="!bg-[rgba(126,232,255,0.14)] hover:!bg-[rgba(126,232,255,0.26)] disabled:!bg-[rgba(126,232,255,0.06)] !text-[#ebf9ff] !mr-0"
+              className="!rounded-oval !bg-gradient-to-br !from-[rgba(126,232,255,0.9)] !to-[rgba(98,255,200,0.75)] hover:!brightness-110 disabled:!bg-[rgba(126,232,255,0.06)] disabled:!bg-none !text-[#02050a] disabled:!text-[rgba(235,249,255,0.3)] !mr-0 transition-transform duration-150 hover:scale-105 active:scale-95"
               isProcessing={isChatProcessing}
               disabled={isChatProcessing || !userMessage}
               onClick={onClickSendButton}

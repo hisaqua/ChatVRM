@@ -47,3 +47,44 @@ body {
     display: none;
   }
 }
+
+/* オーバーレイ(iframe埋め込み)UI向けの装飾 */
+@keyframes overlay-message-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.overlay-message-in {
+  animation: overlay-message-in 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.overlay-chatlog-scroll {
+  mask-image: linear-gradient(to bottom, transparent, black 20px, black);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 20px, black);
+}
+
+.overlay-panel-glow {
+  box-shadow:
+    0 8px 32px rgba(2, 8, 16, 0.45),
+    0 0 0 1px rgba(173, 242, 255, 0.06) inset;
+}
+
+.overlay-input-glow {
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow:
+    0 8px 24px rgba(2, 8, 16, 0.4),
+    0 0 0 1px rgba(173, 242, 255, 0.06) inset;
+}
+
+.overlay-input-glow:focus-within {
+  border-color: rgba(126, 232, 255, 0.55) !important;
+  box-shadow:
+    0 8px 24px rgba(2, 8, 16, 0.4),
+    0 0 0 3px rgba(126, 232, 255, 0.18);
+}
