@@ -43,8 +43,11 @@ export default function Overlay() {
           onLoadingChange={setIsAvatarLoading}
         />
         {isAvatarLoading && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-[40px] h-[40px] border-4 border-[rgba(173,242,255,0.25)] border-t-[rgba(126,232,255,0.95)] rounded-oval animate-spin" />
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            <div className="relative w-[48px] h-[48px]">
+              <div className="absolute inset-0 rounded-oval border-[5px] border-[rgba(2,8,16,0.12)]" />
+              <div className="absolute inset-0 rounded-oval border-[5px] border-transparent border-t-[#62ffc8] border-r-[#7ee8ff] animate-spin shadow-[0_0_18px_rgba(98,255,200,0.75)]" />
+            </div>
           </div>
         )}
       </div>
