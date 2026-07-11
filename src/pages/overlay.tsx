@@ -14,7 +14,7 @@ import { useChatVrm } from "@/hooks/useChatVrm";
 export default function Overlay() {
   const { chatProcessing, chatLog, handleSendChat } = useChatVrm({
     // オーバーレイは常に表示されるため、ログが無制限に増えないよう直近の件数のみ保持する
-    maxHistoryLength: 20,
+    maxHistoryLength: 10,
   });
   const [isAvatarLoading, setIsAvatarLoading] = useState(true);
 
