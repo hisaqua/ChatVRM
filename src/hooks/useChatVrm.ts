@@ -12,9 +12,19 @@ import { getChatResponseStream } from "@/features/chat/openAiChat";
 
 /**
  * ChatVRMのチャット状態・ロジックをページ間(index/overlay)で共有するためのフック
+ * @param options.maxHistoryLength チャットログとして保持する最大件数(未指定の場合は無制限)
  */
-export const useChatVrm = () => {
+export const useChatVrm = (options?: { maxHistoryLength?: number }) => {
   const { viewer } = useContext(ViewerContext);
+  const maxHistoryLength = options?.maxHistoryLength;
+
+  const trimChatLog = useCallback(
+    (log: Message[]): Message[] =>
+      maxHistoryLength != null && log.length > maxHistoryLength
+        ? log.slice(log.length - maxHistoryLength)
+        : log,
+    [maxHistoryLength]
+  );
 
   const [systemPrompt, setSystemPrompt] = useState(SYSTEM_PROMPT);
   // Secrets are no longer embedded at build time; start empty. (User can still input manually if UI exposes it.)
@@ -31,8 +41,9 @@ export const useChatVrm = () => {
       const params = JSON.parse(
         window.localStorage.getItem("chatVRMParams") as string
       );
-      setChatLog(params.chatLog ?? []);
+      setChatLog(trimChatLog(params.chatLog ?? []));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -80,10 +91,10 @@ export const useChatVrm = () => {
 
       setChatProcessing(true);
       // ユーザーの発言を追加して表示
-      const messageLog: Message[] = [
+      const messageLog: Message[] = trimChatLog([
         ...chatLog,
         { role: "user", content: newMessage },
-      ];
+      ]);
       setChatLog(messageLog);
 
       // Chat GPTへ
@@ -165,15 +176,15 @@ export const useChatVrm = () => {
       }
 
       // アシスタントの返答をログに追加
-      const messageLogAssistant: Message[] = [
+      const messageLogAssistant: Message[] = trimChatLog([
         ...messageLog,
         { role: "assistant", content: aiTextLog },
-      ];
+      ]);
 
       setChatLog(messageLogAssistant);
       setChatProcessing(false);
     },
-    [systemPrompt, chatLog, handleSpeakAi, openAiKey, koeiroParam]
+    [systemPrompt, chatLog, handleSpeakAi, openAiKey, koeiroParam, trimChatLog]
   );
 
   return {

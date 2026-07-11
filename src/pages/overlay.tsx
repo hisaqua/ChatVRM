@@ -12,7 +12,10 @@ import { useChatVrm } from "@/hooks/useChatVrm";
  * html/bodyを透過にすることで、埋め込み先のページに背景なしでアバターを重ねられる。
  */
 export default function Overlay() {
-  const { chatProcessing, chatLog, handleSendChat } = useChatVrm();
+  const { chatProcessing, chatLog, handleSendChat } = useChatVrm({
+    // オーバーレイは常に表示されるため、ログが無制限に増えないよう直近の件数のみ保持する
+    maxHistoryLength: 20,
+  });
   const [isAvatarLoading, setIsAvatarLoading] = useState(true);
 
   return (
