@@ -2,14 +2,24 @@ import { useContext, useCallback } from "react";
 import { ViewerContext } from "../features/vrmViewer/viewerContext";
 import { buildUrl } from "@/utils/buildUrl";
 
-export default function VrmViewer() {
+type Props = {
+  // アバターを表示するコンテナのclassName(未指定時は全画面表示)
+  className?: string;
+  // アバターの読み込み開始/完了を通知するコールバック
+  onLoadingChange?: (isLoading: boolean) => void;
+};
+
+export default function VrmViewer({ className, onLoadingChange }: Props) {
   const { viewer } = useContext(ViewerContext);
 
   const canvasRef = useCallback(
     (canvas: HTMLCanvasElement) => {
       if (canvas) {
         viewer.setup(canvas);
-        viewer.loadVrm(buildUrl("/hisako.vrm"));
+        onLoadingChange?.(true);
+        viewer.loadVrm(buildUrl("/hisako.vrm")).then(() => {
+          onLoadingChange?.(false);
+        });
 
         // Drag and DropでVRMを差し替え
         canvas.addEventListener("dragover", function (event) {
@@ -38,11 +48,15 @@ export default function VrmViewer() {
         });
       }
     },
-    [viewer]
+    [viewer, onLoadingChange]
   );
 
   return (
-    <div className={"absolute top-0 left-0 w-screen h-[100svh] -z-10"}>
+    <div
+      className={
+        className ?? "absolute top-0 left-0 w-screen h-[100svh] -z-10"
+      }
+    >
       <canvas ref={canvasRef} className={"h-full w-full"}></canvas>
     </div>
   );

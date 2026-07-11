@@ -5,6 +5,7 @@ type Props = {
   isChatProcessing: boolean;
   onChatProcessStart: (text: string) => void;
   hideCredit?: boolean;
+  overlay?: boolean;
 };
 
 /**
@@ -17,6 +18,7 @@ export const MessageInputContainer = ({
   isChatProcessing,
   onChatProcessStart,
   hideCredit,
+  overlay,
 }: Props) => {
   const [userMessage, setUserMessage] = useState("");
   const [speechRecognition, setSpeechRecognition] =
@@ -94,6 +96,7 @@ export const MessageInputContainer = ({
       onClickMicButton={handleClickMicButton}
       onClickSendButton={handleClickSendButton}
       hideCredit={hideCredit}
+      overlay={overlay}
     />
   );
 };

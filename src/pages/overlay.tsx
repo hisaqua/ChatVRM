@@ -1,19 +1,22 @@
+import { useState } from "react";
 import Head from "next/head";
 import VrmViewer from "@/components/vrmViewer";
 import { MessageInputContainer } from "@/components/messageInputContainer";
+import { OverlayChatLog } from "@/components/overlayChatLog";
 import { useChatVrm } from "@/hooks/useChatVrm";
 
 /**
  * iframe埋め込み用のオーバーレイ表示ページ
  *
- * 背景・メニュー・チャットログ等は一切表示せず、VRMアバターと入力欄のみを表示する。
+ * 背景・メニュー等は表示せず、VRMアバター・チャットログ・入力欄のみを表示する。
  * html/bodyを透過にすることで、埋め込み先のページに背景なしでアバターを重ねられる。
  */
 export default function Overlay() {
-  const { chatProcessing, handleSendChat } = useChatVrm();
+  const { chatProcessing, chatLog, handleSendChat } = useChatVrm();
+  const [isAvatarLoading, setIsAvatarLoading] = useState(true);
 
   return (
-    <div className={"font-M_PLUS_2"}>
+    <div className={"font-M_PLUS_2 flex flex-col h-[100svh] w-screen overflow-hidden"}>
       <Head>
         <title>ひさこちゃんBOT</title>
         <meta name="robots" content="noindex,nofollow" />
@@ -26,11 +29,26 @@ export default function Overlay() {
           background-image: none !important;
         }
       `}</style>
-      <VrmViewer />
+
+      <div className="relative flex-1 min-h-0">
+        <VrmViewer
+          className="absolute inset-0"
+          onLoadingChange={setIsAvatarLoading}
+        />
+        {isAvatarLoading && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-40 h-40 border-4 border-[rgba(255,255,255,0.25)] border-t-white rounded-full animate-spin" />
+          </div>
+        )}
+      </div>
+
+      <OverlayChatLog messages={chatLog} />
+
       <MessageInputContainer
         isChatProcessing={chatProcessing}
         onChatProcessStart={handleSendChat}
         hideCredit
+        overlay
       />
     </div>
   );
