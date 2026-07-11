@@ -1,4 +1,3 @@
-import { buildUrl } from "@/utils/buildUrl";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
@@ -16,7 +15,11 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body style={{ backgroundImage: `url(${buildUrl("./hisako.png")})` }}>
+      {/*
+        背景画像はページ側(index.tsx)で描画する。
+        overlay.tsx(iframe埋め込み用)では背景を持たせず透過表示するため。
+      */}
+      <body>
         <Main />
         <NextScript />
       </body>

@@ -9,6 +9,8 @@ type Props = {
   ) => void;
   onClickSendButton: (event: React.MouseEvent<HTMLButtonElement>) => void;
   onClickMicButton: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  // trueの場合、フッターのクレジット表記を省略する(iframe埋め込み等の省スペース表示用)
+  hideCredit?: boolean;
 };
 export const MessageInput = ({
   userMessage,
@@ -17,6 +19,7 @@ export const MessageInput = ({
   onChangeUserMessage,
   onClickMicButton,
   onClickSendButton,
+  hideCredit,
 }: Props) => {
   return (
     <div className="absolute bottom-0 z-20 w-screen">
@@ -48,9 +51,11 @@ export const MessageInput = ({
             />
           </div>
         </div>
-        <div className="py-4 bg-[#413D43] text-center text-white font-Montserrat">
-          Powered by GPT-3.5, VOICEVOX: 四国めたん
-        </div>
+        {!hideCredit && (
+          <div className="py-4 bg-[#413D43] text-center text-white font-Montserrat">
+            Powered by GPT-3.5, VOICEVOX: 四国めたん
+          </div>
+        )}
       </div>
     </div>
   );
