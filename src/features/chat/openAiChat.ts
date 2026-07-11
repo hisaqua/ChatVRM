@@ -27,23 +27,43 @@ export async function getChatResponseStream(messages: Message[], _apiKey: string
   const stream = new ReadableStream({
     async start(controller: ReadableStreamDefaultController) {
       const decoder = new TextDecoder("utf-8");
+      // SSEのdata:行やマルチバイト文字がネットワークチャンクの境界で
+      // 分断されても欠落しないよう、行単位でバッファリングして処理する。
+      let buffer = "";
+
+      const processLine = (line: string) => {
+        const trimmed = line.trim();
+        if (!trimmed.startsWith("data:")) return;
+        const payload = trimmed.slice("data:".length).trim();
+        if (!payload || payload === "[DONE]") return;
+        try {
+          const json = JSON.parse(payload);
+          const messagePiece = json.choices?.[0]?.delta?.content;
+          if (messagePiece) controller.enqueue(messagePiece);
+        } catch (_e) {
+          // 解析失敗は握りつぶす（OpenAIのkeep-alive等）
+        }
+      };
+
       try {
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-          const data = decoder.decode(value);
-          const chunks = data
-            .split("data:")
-            .filter((val) => !!val && val.trim() !== "[DONE]");
-          for (const chunk of chunks) {
-            try {
-              const json = JSON.parse(chunk);
-              const messagePiece = json.choices?.[0]?.delta?.content;
-              if (messagePiece) controller.enqueue(messagePiece);
-            } catch (_e) {
-              // 解析失敗は握りつぶす（OpenAIのkeep-alive等）
-            }
+          // streamオプションを付けないと、マルチバイト文字がチャンク境界で
+          // 分断された際に文字化け・文字欠落が発生するため必ず指定する。
+          buffer += decoder.decode(value, { stream: true });
+
+          const lines = buffer.split("\n");
+          // 最後の要素は次のチャンクへ続く可能性がある未完の行なので保持しておく
+          buffer = lines.pop() ?? "";
+          for (const line of lines) {
+            processLine(line);
           }
+        }
+        // 残りのバッファ(末尾に改行が無かった最後の行)を処理する
+        buffer += decoder.decode();
+        if (buffer) {
+          processLine(buffer);
         }
       } catch (error) {
         controller.error(error);
