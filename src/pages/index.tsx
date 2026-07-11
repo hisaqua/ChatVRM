@@ -29,7 +29,7 @@ export default function Home() {
       <Meta />
       <div
         className={"fixed top-0 left-0 w-screen h-[100svh] -z-20 bg-cover bg-center bg-no-repeat bg-fixed"}
-        style={{ backgroundImage: `url(${buildUrl("./hisako.png")})` }}
+        style={{ backgroundImage: `url(${buildUrl("/hisako.png")})` }}
       />
       <VrmViewer />
       <MessageInputContainer
