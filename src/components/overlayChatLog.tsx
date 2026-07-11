@@ -38,7 +38,7 @@ export const OverlayChatLog = ({ messages }: Props) => {
 
 const ChatLine = ({ role, message }: { role: string; message: string }) => {
   const isAssistant = role === "assistant";
-  const text = message.replace(/\s*\[[^\]]+\]\s*/g, " ").trim();
+  const text = message.replace(/\s*\[[^\]]+\]\s*/g, "").trim();
   if (!text) return null;
 
   return (
