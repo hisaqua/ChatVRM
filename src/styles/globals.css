@@ -76,15 +76,22 @@ body {
 }
 
 .overlay-input-glow {
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: box-shadow 0.2s ease;
   box-shadow:
     0 8px 24px rgba(2, 8, 16, 0.4),
     0 0 0 1px rgba(173, 242, 255, 0.06) inset;
 }
 
 .overlay-input-glow:focus-within {
-  border-color: rgba(126, 232, 255, 0.55) !important;
   box-shadow:
     0 8px 24px rgba(2, 8, 16, 0.4),
     0 0 0 3px rgba(126, 232, 255, 0.18);
+}
+
+.overlay-input-surface {
+  transition: border-color 0.2s ease;
+}
+
+.overlay-input-glow:focus-within .overlay-input-surface {
+  border-color: rgba(126, 232, 255, 0.55) !important;
 }

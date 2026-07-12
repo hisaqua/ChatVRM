@@ -26,7 +26,9 @@ export const OverlayChatLog = ({ messages, onClear }: Props) => {
 
   return (
     <div className="relative z-20 w-full px-8 pt-4">
-      <div className="relative mx-auto max-w-md">
+      {/* box-shadowとbackdrop-blurを同じ要素に重ねると影が角丸に沿わず矩形になる不具合があるため、
+          影(overlay-panel-glow)とぼかし背景(内側のスクロール要素)を別要素に分離する */}
+      <div className="overlay-panel-glow relative mx-auto max-w-md rounded-24">
         {onClear && (
           <button
             type="button"
@@ -46,7 +48,7 @@ export const OverlayChatLog = ({ messages, onClear }: Props) => {
         )}
         <div
           ref={scrollRef}
-          className="overlay-chatlog-scroll max-h-[32svh] overflow-y-auto rounded-24 overlay-panel-glow bg-gradient-to-b from-[rgba(9,17,28,0.88)] to-[rgba(6,12,20,0.82)] backdrop-blur-md border border-[rgba(173,242,255,0.18)] px-[14px] py-[18px] scroll-hidden"
+          className="overlay-chatlog-scroll max-h-[32svh] overflow-y-auto rounded-24 bg-gradient-to-b from-[rgba(9,17,28,0.88)] to-[rgba(6,12,20,0.82)] backdrop-blur-md border border-[rgba(173,242,255,0.18)] px-[14px] py-[18px] scroll-hidden"
         >
           {messages.map((msg, i) => (
             <ChatLine key={i} role={msg.role} message={msg.content} />
