@@ -57,6 +57,34 @@ const WORD_KATAKANA_DICTIONARY: Record<string, string> = {
   dj: "ディージェー",
   pc: "ピーシー",
   ai: "エーアイ",
+  full: "フル",
+};
+
+// 読み間違えやすい固有の漢字表現を、読み上げ用のひらがな/カタカナへ置き換える辞書
+const KANJI_READING_OVERRIDES: [string, string][] = [["燈火", "ともしび"]];
+
+// 「1st」「2nd」のような英語式の序数表現をカタカナ読みへ変換するための対応表(1〜20)
+const ORDINAL_KATAKANA: Record<number, string> = {
+  1: "ファースト",
+  2: "セカンド",
+  3: "サード",
+  4: "フォース",
+  5: "フィフス",
+  6: "シックス",
+  7: "セブンス",
+  8: "エイス",
+  9: "ナインス",
+  10: "テンス",
+  11: "イレブンス",
+  12: "トゥエルフス",
+  13: "サーティーンス",
+  14: "フォーティーンス",
+  15: "フィフティーンス",
+  16: "シックスティーンス",
+  17: "セブンティーンス",
+  18: "エイティーンス",
+  19: "ナインティーンス",
+  20: "トゥエンティエス",
 };
 
 // 辞書に無い1〜3文字の頭字語(略語)を1文字ずつ読み上げる際のアルファベット読み
@@ -219,6 +247,11 @@ function transliterateWord(word: string): string {
 export function toSpeakableText(text: string): string {
   let result = text;
 
+  // 読み間違えやすい固有の漢字表現を先に読み上げ用の表記へ置き換える
+  for (const [kanji, reading] of KANJI_READING_OVERRIDES) {
+    result = result.split(kanji).join(reading);
+  }
+
   // URL(http/https/www)を除去
   result = result.replace(/https?:\/\/\S+/gi, "");
   result = result.replace(/www\.\S+/gi, "");
@@ -228,6 +261,12 @@ export function toSpeakableText(text: string): string {
 
   // 残った空白の連続を整理
   result = result.replace(/[ \t]{2,}/g, " ").trim();
+
+  // 「1st」「2nd」等の英語式序数をカタカナ読みへ変換(アルファベット変換より先に行う)
+  result = result.replace(/(\d{1,2})(st|nd|rd|th)\b/gi, (match, num) => {
+    const kana = ORDINAL_KATAKANA[Number(num)];
+    return kana ?? match;
+  });
 
   // アルファベットの並びをカタカナ読みへ変換
   result = result.replace(/[A-Za-z]+(?:['’-][A-Za-z]+)*/g, (match) =>
