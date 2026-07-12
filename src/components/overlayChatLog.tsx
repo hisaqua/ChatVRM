@@ -3,6 +3,8 @@ import { Message } from "@/features/messages/messages";
 
 type Props = {
   messages: Message[];
+  // 会話履歴を削除するためのコールバック(未指定時は削除ボタンを表示しない)
+  onClear?: () => void;
 };
 
 /**
@@ -10,7 +12,7 @@ type Props = {
  *
  * 常時表示される小さなガラス風パネルとして、会話履歴をスクロール表示する。
  */
-export const OverlayChatLog = ({ messages }: Props) => {
+export const OverlayChatLog = ({ messages, onClear }: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,13 +26,32 @@ export const OverlayChatLog = ({ messages }: Props) => {
 
   return (
     <div className="relative z-20 w-full px-8 pt-4">
-      <div
-        ref={scrollRef}
-        className="overlay-chatlog-scroll mx-auto max-w-md max-h-[32svh] overflow-y-auto rounded-24 overlay-panel-glow bg-gradient-to-b from-[rgba(9,17,28,0.88)] to-[rgba(6,12,20,0.82)] backdrop-blur-md border border-[rgba(173,242,255,0.18)] px-[14px] py-[18px] scroll-hidden"
-      >
-        {messages.map((msg, i) => (
-          <ChatLine key={i} role={msg.role} message={msg.content} />
-        ))}
+      <div className="relative mx-auto max-w-md">
+        {onClear && (
+          <button
+            type="button"
+            onClick={onClear}
+            aria-label="会話履歴を削除"
+            title="会話履歴を削除"
+            className="absolute right-8 top-8 z-10 flex h-[24px] w-[24px] items-center justify-center rounded-oval border border-[rgba(173,242,255,0.25)] bg-[rgba(6,12,20,0.7)] text-[#ebf9ff] opacity-70 backdrop-blur-sm transition-opacity hover:opacity-100"
+          >
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+              <path d="M10 11v6" />
+              <path d="M14 11v6" />
+              <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+            </svg>
+          </button>
+        )}
+        <div
+          ref={scrollRef}
+          className="overlay-chatlog-scroll max-h-[32svh] overflow-y-auto rounded-24 overlay-panel-glow bg-gradient-to-b from-[rgba(9,17,28,0.88)] to-[rgba(6,12,20,0.82)] backdrop-blur-md border border-[rgba(173,242,255,0.18)] px-[14px] py-[18px] scroll-hidden"
+        >
+          {messages.map((msg, i) => (
+            <ChatLine key={i} role={msg.role} message={msg.content} />
+          ))}
+        </div>
       </div>
     </div>
   );
