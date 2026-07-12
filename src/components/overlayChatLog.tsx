@@ -26,9 +26,7 @@ export const OverlayChatLog = ({ messages, onClear }: Props) => {
 
   return (
     <div className="relative z-20 w-full px-8 pt-4">
-      {/* box-shadowとbackdrop-blurを同じ要素に重ねると影が角丸に沿わず矩形になる不具合があるため、
-          影(overlay-panel-glow)とぼかし背景(内側のスクロール要素)を別要素に分離する */}
-      <div className="overlay-panel-glow relative mx-auto max-w-md rounded-24">
+      <div className="relative mx-auto max-w-md">
         {onClear && (
           <button
             type="button"

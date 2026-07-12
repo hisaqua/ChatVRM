@@ -69,29 +69,10 @@ body {
   -webkit-mask-image: linear-gradient(to bottom, transparent, black 20px, black);
 }
 
-.overlay-panel-glow {
-  box-shadow:
-    0 8px 32px rgba(2, 8, 16, 0.45),
-    0 0 0 1px rgba(173, 242, 255, 0.06) inset;
-}
-
-.overlay-input-glow {
-  transition: box-shadow 0.2s ease;
-  box-shadow:
-    0 8px 24px rgba(2, 8, 16, 0.4),
-    0 0 0 1px rgba(173, 242, 255, 0.06) inset;
-}
-
-.overlay-input-glow:focus-within {
-  box-shadow:
-    0 8px 24px rgba(2, 8, 16, 0.4),
-    0 0 0 3px rgba(126, 232, 255, 0.18);
-}
-
 .overlay-input-surface {
   transition: border-color 0.2s ease;
 }
 
-.overlay-input-glow:focus-within .overlay-input-surface {
+.overlay-input-surface:focus-within {
   border-color: rgba(126, 232, 255, 0.55) !important;
 }
